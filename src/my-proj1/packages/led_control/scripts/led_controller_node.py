@@ -30,19 +30,24 @@ class LEDController:
     
     def run_interactive_mode(self):
         rospy.loginfo("LED Controller Interactive Mode")
-        rospy.loginfo("Available colors: GREEN, BLUE, RED, WHITE")
+        rospy.loginfo("Available commands: G=GREEN, B=BLUE, R=RED, W=WHITE, Q=QUIT")
         
         while not rospy.is_shutdown():
             try:
-                color = input("Enter LED color (GREEN/BLUE/RED/WHITE) or 'quit' to exit: ").strip().upper()
+                char = input("Enter command (G/B/R/W/Q): ").strip().upper()
                 
-                if color == 'QUIT':
+                if char == 'Q':
                     break
-                
-                if color in ['GREEN', 'BLUE', 'RED', 'WHITE']:
-                    self.set_led_pattern(color)
+                elif char == 'G':
+                    self.set_led_pattern('GREEN')
+                elif char == 'B':
+                    self.set_led_pattern('BLUE')
+                elif char == 'R':
+                    self.set_led_pattern('RED')
+                elif char == 'W':
+                    self.set_led_pattern('WHITE')
                 else:
-                    print("Invalid color. Please choose from: GREEN, BLUE, RED, WHITE")
+                    print("Invalid command. Please use: G=GREEN, B=BLUE, R=RED, W=WHITE, Q=QUIT")
                     
             except KeyboardInterrupt:
                 break
