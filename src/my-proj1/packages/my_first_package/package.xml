@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>The my_first_package package</description>
 
-  <maintainer email="user@example.com">user</maintainer>
+  <maintainer email="anonymous@example.com">anonymous</maintainer>
 
   <license>MIT</license>
 

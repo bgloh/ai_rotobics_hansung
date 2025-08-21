@@ -1,39 +1,30 @@
 #!/usr/bin/env python3
 
 import rospy
-from std_srvs.srv import SetBool, SetBoolRequest
+import os
 import sys
 
 class LEDController:
     def __init__(self):
         rospy.init_node('led_controller_node', anonymous=True)
-        
-        # Wait for the service to be available
-        service_name = '/duckiealexa/led_emitter_node/set_pattern'
-        rospy.loginfo(f"Waiting for service {service_name}")
-        rospy.wait_for_service(service_name)
-        
-        # Create service proxy
-        self.set_pattern_service = rospy.ServiceProxy(service_name, SetBool)
         rospy.loginfo("LED Controller Node initialized")
     
     def set_led_pattern(self, pattern_name):
         try:
-            # Create service request
-            request = SetBoolRequest()
-            request.data = pattern_name
+            # Use rosservice call command directly
+            cmd = f'rosservice call /duckiealexa/led_emitter_node/set_pattern "pattern_name: {{data: {pattern_name}}}"'
+            rospy.loginfo(f"Calling service: {cmd}")
             
-            # Call the service
-            response = self.set_pattern_service(request)
+            result = os.system(cmd)
             
-            if response.success:
+            if result == 0:
                 rospy.loginfo(f"Successfully set LED pattern to: {pattern_name}")
+                return True
             else:
-                rospy.logwarn(f"Failed to set LED pattern: {response.message}")
+                rospy.logwarn(f"Failed to set LED pattern to: {pattern_name}")
+                return False
             
-            return response.success
-            
-        except rospy.ServiceException as e:
+        except Exception as e:
             rospy.logerr(f"Service call failed: {e}")
             return False
     

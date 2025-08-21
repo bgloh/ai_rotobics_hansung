@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>The led_control package for controlling Duckiebot LED colors</description>
 
-  <maintainer email="byoungloh@gmail.com">bgloh</maintainer>
+  <maintainer email="anonymous@example.com">anonymous</maintainer>
 
   <license>MIT</license>
 
