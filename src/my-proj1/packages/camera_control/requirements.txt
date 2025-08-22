@@ -1,0 +1,2 @@
+# YOLO Dependencies for Raspberry Pi 3
+ultralytics
