@@ -34,6 +34,21 @@ class CameraReaderNode(DTROS):
        # Convert back to 3-channel for compressed image message compatibility
        processed_image = cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGR)
        
+       # Add "PROCESSED" text near the bottom of the image
+       height, width = processed_image.shape[:2]
+       text = "PROCESSED"
+       font = cv2.FONT_HERSHEY_SIMPLEX
+       font_scale = 1
+       color = (255, 255, 255)  # White color
+       thickness = 2
+       
+       # Get text size to position it properly
+       text_size = cv2.getTextSize(text, font, font_scale, thickness)[0]
+       text_x = width - text_size[0] - 10  # 10 pixels from right edge
+       text_y = height - 20  # 20 pixels from bottom
+       
+       cv2.putText(processed_image, text, (text_x, text_y), font, font_scale, color, thickness)
+       
        # Convert back to compressed image message
        processed_msg = self._bridge.cv2_to_compressed_imgmsg(processed_image)
        processed_msg.header = msg.header  # Preserve original header
