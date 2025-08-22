@@ -19,5 +19,6 @@ include_directories(
 
 catkin_install_python(PROGRAMS
   scripts/car_controller_node.py
+  scripts/car_controller2_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

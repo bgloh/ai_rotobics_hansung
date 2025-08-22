@@ -52,23 +52,41 @@ rosrun motor_control motor_controller_node.py
 덕키봇의 고수준 차량 제어를 위한 패키지입니다.
 
 **기능:**
-- 향상된 인터랙티브 제어 (W/S/A/D/Q/E/X/Z)
+- 향상된 인터랙티브 제어
 - 복합 움직임 지원 (전진+회전)
 - Twist2DStamped 메시지를 통한 정밀한 속도 제어
 - 선형 및 각속도 독립 제어
+- 두 가지 제어 모드 제공
 
-**제어 명령:**
-- W/S: 전진/후진 (선형 속도)
-- A/D: 좌/우회전 (각속도)
-- Q/E: 전진+좌회전/전진+우회전
-- X: 정지, Z: 종료
+**제어 노드:**
+
+**3.1 car_controller_node.py (Enter 방식)**
+- 제어 명령: W/S/A/D/Q/E/X/Z (대문자)
+- Enter 키 입력 후 실행
+- 표준 터미널 인터페이스
+
+**3.2 car_controller2_node.py (실시간 방식)**
+- 제어 명령: w/s/a/d/q/e/x/z (소문자)
+- Enter 불필요 - 즉시 반응
+- curses 기반 실시간 인터페이스
+- 실시간 상태 표시
+
+**공통 제어 명령:**
+- w/s: 전진/후진 (선형 속도)
+- a/d: 좌/우회전 (각속도)
+- q/e: 전진+좌회전/전진+우회전
+- x: 정지, z: 종료
 
 **토픽:**
 - 출력: `/{ROBOT_NAME}/car_cmd_switch_node/cmd`
 
 **실행 방법:**
 ```bash
+# Enter 방식 (기본)
 rosrun car_control car_controller_node.py
+
+# 실시간 방식 (추천)
+rosrun car_control car_controller2_node.py
 ```
 
 ### 4. camera_control 패키지
@@ -173,8 +191,11 @@ rosrun led_control led_controller_node.py
 # 저수준 모터 컨트롤러 (바퀴 직접 제어)
 rosrun motor_control motor_controller_node.py
 
-# 고수준 차량 컨트롤러 (Twist2D 제어)
+# 고수준 차량 컨트롤러 (Enter 방식)
 rosrun car_control car_controller_node.py
+
+# 고수준 차량 컨트롤러 (실시간 방식)
+rosrun car_control car_controller2_node.py
 
 # 카메라 컨트롤러
 rosrun camera_control camera_controller_node.py
