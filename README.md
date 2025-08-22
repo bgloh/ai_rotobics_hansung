@@ -73,6 +73,8 @@ ROS의 기본 publisher/subscriber 패턴을 학습하기 위한 예제 패키�
 
 Duckietown 가이드라인에 따른 catkin 패키지 생성 방법입니다.
 
+> 📖 **상세 가이드**: [Duckietown 공식 문서](https://docs.duckietown.com/daffy/devmanual-software/beginner/ros/catkin-packages.html)
+
 ### 1단계: 패키지 디렉토리 생성
 ```bash
 mkdir -p ./packages/my_package
@@ -189,3 +191,84 @@ roslog find [package_name]
 rosnode list
 rosnode info /node_name
 ```
+
+## ROS 명령어 치트 시트
+
+### 기본 명령어
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `roscore` | ROS 마스터 시작 | `roscore` |
+| `rosrun` | 패키지 노드 실행 | `rosrun turtlesim turtlesim_node` |
+| `roslaunch` | Launch 파일 실행 | `roslaunch turtlesim multisim.launch` |
+
+### 노드 관리
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rosnode list` | 실행 중인 노드 목록 | `rosnode list` |
+| `rosnode info` | 노드 정보 확인 | `rosnode info /turtlesim` |
+| `rosnode kill` | 노드 종료 | `rosnode kill /turtlesim` |
+| `rosnode kill -a` | 모든 노드 종료 | `rosnode kill -a` |
+
+### 토픽 관리
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rostopic list` | 토픽 목록 확인 | `rostopic list` |
+| `rostopic info` | 토픽 정보 확인 | `rostopic info /cmd_vel` |
+| `rostopic echo` | 토픽 메시지 확인 | `rostopic echo /cmd_vel` |
+| `rostopic hz` | 토픽 주파수 확인 | `rostopic hz /cmd_vel` |
+| `rostopic pub` | 토픽에 메시지 발행 | `rostopic pub /cmd_vel geometry_msgs/Twist "..."` |
+
+### 서비스 관리
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rosservice list` | 서비스 목록 확인 | `rosservice list` |
+| `rosservice info` | 서비스 정보 확인 | `rosservice info /spawn` |
+| `rosservice call` | 서비스 호출 | `rosservice call /spawn 1 1 0 "turtle2"` |
+| `rosservice type` | 서비스 타입 확인 | `rosservice type /spawn` |
+
+### 패키지 관리
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rospack find` | 패키지 경로 찾기 | `rospack find turtlesim` |
+| `rospack depends` | 패키지 의존성 확인 | `rospack depends turtlesim` |
+| `rospack list` | 패키지 목록 확인 | `rospack list` |
+
+### 메시지 및 타입
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rosmsg show` | 메시지 타입 구조 확인 | `rosmsg show geometry_msgs/Twist` |
+| `rosmsg list` | 메시지 타입 목록 | `rosmsg list` |
+| `rossrv show` | 서비스 타입 구조 확인 | `rossrv show turtlesim/Spawn` |
+| `rossrv list` | 서비스 타입 목록 | `rossrv list` |
+
+### 파라미터 서버
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rosparam list` | 파라미터 목록 확인 | `rosparam list` |
+| `rosparam get` | 파라미터 값 확인 | `rosparam get /background_r` |
+| `rosparam set` | 파라미터 설정 | `rosparam set /background_r 255` |
+| `rosparam delete` | 파라미터 삭제 | `rosparam delete /background_r` |
+
+### 빌드 및 워크스페이스
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `catkin_make` | 워크스페이스 빌드 | `catkin_make` |
+| `catkin_make --only-pkg-with-deps` | 특정 패키지만 빌드 | `catkin_make --only-pkg-with-deps my_package` |
+| `source devel/setup.bash` | 환경 설정 소스 | `source devel/setup.bash` |
+| `catkin_make clean` | 빌드 파일 정리 | `catkin_make clean` |
+
+### 도구 및 시각화
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rqt` | RQT 도구 모음 실행 | `rqt` |
+| `rqt_graph` | 노드 그래프 시각화 | `rqt_graph` |
+| `rqt_console` | 로그 뷰어 | `rqt_console` |
+| `rqt_plot` | 토픽 데이터 플롯 | `rqt_plot /turtle1/pose/x` |
+| `rviz` | 3D 시각화 도구 | `rviz` |
+
+### 로그 및 디버깅
+| 명령어 | 설명 | 예시 |
+|--------|------|------|
+| `rosbag record` | 토픽 데이터 기록 | `rosbag record /cmd_vel /odom` |
+| `rosbag play` | 기록된 데이터 재생 | `rosbag play data.bag` |
+| `rosbag info` | 백 파일 정보 확인 | `rosbag info data.bag` |
