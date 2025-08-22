@@ -9,7 +9,8 @@ src/
 ├── my-proj1/
 │   └── packages/
 │       ├── led_control/          # LED 제어 패키지
-│       ├── motor_control/        # 모터 제어 패키지  
+│       ├── motor_control/        # 저수준 모터 제어 패키지  
+│       ├── car_control/          # 고수준 차량 제어 패키지
 │       ├── camera_control/       # 카메라 제어 패키지
 │       └── my_first_package/     # 기본 pub/sub 예제
 └── CLAUDE.md                     # 개발 가이드
@@ -31,19 +32,46 @@ rosrun led_control led_controller_node.py
 ```
 
 ### 2. motor_control 패키지  
-덕키봇의 바퀴 모터를 제어하는 패키지입니다.
+덕키봇의 바퀴 모터를 저수준에서 제어하는 패키지입니다.
 
 **기능:**
 - WASD 키를 통한 방향 제어
 - W: 전진, S: 후진, A: 좌회전, D: 우회전, X: 정지
-- 멀티스레딩을 통한 빠른 응답 속도
+- 직접적인 바퀴 속도 제어 (WheelsCmdStamped)
+- 최적화된 ROS 메시지 발행
+
+**토픽:**
+- 출력: `/duckiealexa/wheels_driver_node/wheels_cmd`
 
 **실행 방법:**
 ```bash
 rosrun motor_control motor_controller_node.py
 ```
 
-### 3. camera_control 패키지
+### 3. car_control 패키지
+덕키봇의 고수준 차량 제어를 위한 패키지입니다.
+
+**기능:**
+- 향상된 인터랙티브 제어 (W/S/A/D/Q/E/X/Z)
+- 복합 움직임 지원 (전진+회전)
+- Twist2DStamped 메시지를 통한 정밀한 속도 제어
+- 선형 및 각속도 독립 제어
+
+**제어 명령:**
+- W/S: 전진/후진 (선형 속도)
+- A/D: 좌/우회전 (각속도)
+- Q/E: 전진+좌회전/전진+우회전
+- X: 정지, Z: 종료
+
+**토픽:**
+- 출력: `/{ROBOT_NAME}/car_cmd_switch_node/cmd`
+
+**실행 방법:**
+```bash
+rosrun car_control car_controller_node.py
+```
+
+### 4. camera_control 패키지
 덕키봇의 카메라 영상을 처리하는 패키지입니다.
 
 **기능:**
@@ -62,7 +90,7 @@ rosrun motor_control motor_controller_node.py
 rosrun camera_control camera_controller_node.py
 ```
 
-### 4. my_first_package 패키지
+### 5. my_first_package 패키지
 ROS의 기본 publisher/subscriber 패턴을 학습하기 위한 예제 패키지입니다.
 
 **구성:**
@@ -142,8 +170,11 @@ source devel/setup.bash
 # LED 컨트롤러
 rosrun led_control led_controller_node.py
 
-# 모터 컨트롤러
+# 저수준 모터 컨트롤러 (바퀴 직접 제어)
 rosrun motor_control motor_controller_node.py
+
+# 고수준 차량 컨트롤러 (Twist2D 제어)
+rosrun car_control car_controller_node.py
 
 # 카메라 컨트롤러
 rosrun camera_control camera_controller_node.py
