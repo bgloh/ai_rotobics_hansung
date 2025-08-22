@@ -1,30 +1,31 @@
 #!/usr/bin/env python3
 
 import rospy
-import subprocess
 import sys
 import threading
-import time
+from duckietown_msgs.msg import WheelsCmdStamped
 
 class MotorController:
     def __init__(self):
         rospy.init_node('motor_controller_node', anonymous=True)
         self.current_command = None
         self.command_lock = threading.Lock()
+        
+        # Create publisher for wheel commands
+        self.pub = rospy.Publisher('/duckiealexa/wheels_driver_node/wheels_cmd', 
+                                  WheelsCmdStamped, queue_size=1)
+        
         rospy.loginfo("Motor Controller Node initialized")
     
     def send_motor_command_fast(self, vel_left, vel_right):
         try:
-            # Use subprocess for faster execution
-            cmd = [
-                'rostopic', 'pub', '-1', 
-                '/duckiealexa/wheels_driver_node/wheels_cmd', 
-                'duckietown_msgs/WheelsCmdStamped',
-                f'{{header: {{stamp: now, frame_id: ""}}, vel_left: {vel_left}, vel_right: {vel_right}}}'
-            ]
+            # Create and publish wheel command message directly
+            msg = WheelsCmdStamped()
+            msg.header.stamp = rospy.Time.now()
+            msg.vel_left = vel_left
+            msg.vel_right = vel_right
             
-            # Run in background for faster response
-            subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            self.pub.publish(msg)
             return True
             
         except Exception as e:

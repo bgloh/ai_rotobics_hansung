@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(car_control)
+
+find_package(catkin REQUIRED COMPONENTS
+  rospy
+  duckietown_msgs
+)
+
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES car_control
+#  CATKIN_DEPENDS rospy duckietown_msgs
+#  DEPENDS system_lib
+)
+
+include_directories(
+# include
+)
+
+catkin_install_python(PROGRAMS
+  scripts/car_controller_node.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
